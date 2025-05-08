@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3D向日葵</title>
+    <style>
+        :root {
+            --petal-yellow: #FFD700;
+            --center-brown: #8B4513;
+            --stem-green: #228B22;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(160deg, #87CEEB, #4682B4);
+        }
+
+        /* 向日葵容器 */
+        .sunflower {
+            position: relative;
+            width: 300px;
+            height: 500px;
+        }
+
+        /* 花蕊中心 */
+        .flower-center {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: 
+                radial-gradient(circle at 30% 30%, 
+                    #A0522D 20%,
+                    var(--center-brown) 60%,
+                    #000 100%);
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* 花瓣层 */
+        .petals {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            animation: rotate 20s linear infinite;
+        }
+
+        .petal {
+            position: absolute;
+            width: 80px;
+            height: 160px;
+            left: 110px;
+            transform-origin: bottom center;
+            background: linear-gradient(
+                to right,
+                var(--petal-yellow),
+                #FFA500 70%);
+            border-radius: 40px;
+            clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* 茎叶 */
+        .stem {
+            position: absolute;
+            width: 20px;
+            height: 400px;
+            background: linear-gradient(
+                to right,
+                #006400,
+                var(--stem-green) 50%);
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%) perspective(100px) rotateX(20deg);
+            border-radius: 10px;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 80px;
+            height: 50px;
+            background: var(--stem-green);
+            clip-path: path('M0 10 Q40 0 80 10 Q60 30 40 50 Q20 30 0 10');
+            transform-origin: left center;
+            animation: leaf-sway 4s ease-in-out infinite;
+        }
+
+        /* 动态效果 */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+
+        @keyframes leaf-sway {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="sunflower">
+        <!-- 茎叶 -->
+        <div class="stem">
+            <div class="leaf" style="top: 100px; left: -30px;"></div>
+            <div class="leaf" style="top: 250px; right: -30px; transform: scaleX(-1)"></div>
+        </div>
+
+        <!-- 花瓣 -->
+        <div class="petals">
+            <script>
+                // 生成36片花瓣
+                for(let i=0; i<36; i++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'petal';
+                    petal.style.transform = `rotate(${i*10}deg) translateY(-20px)`;
+                    document.querySelector('.petals').appendChild(petal);
+                }
+            </script>
+        </div>
+
+        <!-- 花蕊中心 -->
+        <div class="flower-center"></div>
+    </div>
+</body>
+</html>
